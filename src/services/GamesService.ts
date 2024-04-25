@@ -3,6 +3,7 @@ import apiClient from './api-client'
 export interface Game {
   id: number
   name: string
+  background_image: string
 }
 
 export interface FetchGamesResponse {
