@@ -1,27 +1,19 @@
+import { AxiosError } from 'axios'
+
+import {
+  FetchGamesResponse,
+  FetchGenresResponse,
+  Game,
+  Genre,
+  Platform,
+} from '../models.ts/models'
 import apiClient from './api-client'
 
-export interface Game {
-  id: number
-  name: string
-  background_image: string
-  parent_platforms: { platform: Platform }[]
-  metacritic: number
-}
-
-export interface Platform {
-  id: number
-  name: string
-  slug: string
-}
-
-export interface FetchGamesResponse {
-  count: number
-  next: string
-  previous: string
-  results: Game[]
-}
-
 class GamesService {
+  private gamesEndpoint = '/games'
+  private genresEndpoint = '/genres'
+  private platformsEndpoint = '/platforms/lists/parents'
+
   getGames(genreIds: string | null): Promise<Game[]> {
     const params: Record<string, string> = {}
     if (genreIds) {
@@ -29,7 +21,7 @@ class GamesService {
     }
 
     return apiClient
-      .get<FetchGamesResponse>('/games', { params })
+      .get<FetchGamesResponse>(this.gamesEndpoint, { params })
       .then((response) => {
         return response.data.results
       })
@@ -41,7 +33,7 @@ class GamesService {
 
   getGamesByGenre(id: number): Promise<Game[]> {
     return apiClient
-      .get<FetchGamesResponse>('/games', {
+      .get<FetchGamesResponse>(this.gamesEndpoint, {
         params: {
           genres: id,
         },
@@ -51,6 +43,34 @@ class GamesService {
         console.error('Error fetching games:', error)
         throw error
       })
+  }
+
+  async getGenres(): Promise<Genre[]> {
+    try {
+      const response = await apiClient.get<FetchGenresResponse>(
+        this.genresEndpoint
+      )
+      return response.data.results
+    } catch (error) {
+      console.error('Error retrieving genres:', error)
+      throw new Error(
+        `Failed to retrieve genres: ${(error as AxiosError).message}`
+      )
+    }
+  }
+
+  async getPlatforms(): Promise<Platform[]> {
+    try {
+      const response = await apiClient.get<FetchGenresResponse>(
+        this.platformsEndpoint
+      )
+      return response.data.results
+    } catch (error) {
+      console.error('Error retrieving genres:', error)
+      throw new Error(
+        `Failed to retrieve genres: ${(error as AxiosError).message}`
+      )
+    }
   }
 }
 

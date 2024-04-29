@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-import GenresService, { Genre } from '../services/GenresService'
+import { Genre } from '../models.ts/models'
+import GamesService from '../services/GamesService'
 
 const useGenres = () => {
   const [genres, setGenres] = useState<Genre[]>([])
@@ -9,7 +10,7 @@ const useGenres = () => {
   useEffect(() => {
     const fetchGenres = async () => {
       try {
-        const genres = await GenresService.getGenres()
+        const genres = await GamesService.getGenres()
         setGenres(genres)
         setIsLoading(false)
       } catch (error) {

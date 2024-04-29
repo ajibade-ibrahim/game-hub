@@ -1,7 +1,8 @@
 import { AxiosError } from 'axios'
 import { useEffect, useState } from 'react'
 
-import GamesService, { Game } from '../services/GamesService'
+import { Game } from '../models.ts/models'
+import GamesService from '../services/GamesService'
 
 const useGames = (selectedGenreId: string | null) => {
   // State variables
