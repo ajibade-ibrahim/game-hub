@@ -7,13 +7,17 @@ import GameCardSkeleton from './GameCardSkeleton'
 
 interface GameGridProps {
   selectedGenreId: string | null
+  selectedPlatformId: string | null
 }
 
 const GameGrid: React.FC<GameGridProps> = ({
   selectedGenreId,
+  selectedPlatformId,
 }: GameGridProps) => {
-  console.log(selectedGenreId, 'selectedGenreId')
-  const { games, error, isLoading } = useGames(selectedGenreId)
+  const { games, error, isLoading } = useGames(
+    selectedGenreId,
+    selectedPlatformId
+  )
   const numbers = Array.from({ length: 6 }, (_, index) => index + 1)
 
   return (

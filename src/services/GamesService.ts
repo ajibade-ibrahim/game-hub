@@ -14,10 +14,16 @@ class GamesService {
   private genresEndpoint = '/genres'
   private platformsEndpoint = '/platforms/lists/parents'
 
-  getGames(genreIds: string | null): Promise<Game[]> {
+  getGames(
+    genreIds: string | null,
+    platformIds: string | null
+  ): Promise<Game[]> {
     const params: Record<string, string> = {}
     if (genreIds) {
       params.genres = genreIds
+    }
+    if (platformIds) {
+      params.parent_platforms = platformIds
     }
 
     return apiClient

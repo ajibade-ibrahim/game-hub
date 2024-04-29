@@ -1,4 +1,12 @@
-import { Button, HStack, Image, List, ListItem, Spinner, Text } from '@chakra-ui/react'
+import {
+  Button,
+  HStack,
+  Image,
+  List,
+  ListItem,
+  Spinner,
+  Text,
+} from '@chakra-ui/react'
 import React from 'react'
 
 import useGenres from '../hooks/useGenres'
@@ -23,7 +31,6 @@ const GenreList: React.FC<GenreListProps> = ({
   }
 
   const setFontWeight = (id: string): string => {
-    console.log(selectedGenreId, 'font weight')
     return id === selectedGenreId ? 'bold' : 'normal'
   }
 
