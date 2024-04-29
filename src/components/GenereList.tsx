@@ -1,13 +1,29 @@
-import { HStack, Image, List, ListItem, Spinner, Text } from '@chakra-ui/react'
+import {
+  Button,
+  HStack,
+  Image,
+  List,
+  ListItem,
+  Spinner,
+  Text,
+} from '@chakra-ui/react'
 import React from 'react'
 
 import useGenres from '../hooks/useGenres'
 import { getModifiedImageUrl } from '../ImageCropper'
 
-const GenreList: React.FC = () => {
+interface GenreListProps {
+  onGenreClick: (id: number) => void
+}
+
+const GenreList: React.FC<GenreListProps> = ({ onGenreClick }) => {
   const { genres, isLoading } = useGenres()
   if (isLoading) {
     return <Spinner />
+  }
+
+  const handleGenreClick = (id: number): void => {
+    onGenreClick(id)
   }
 
   return (
@@ -20,7 +36,15 @@ const GenreList: React.FC = () => {
               borderRadius={8}
               src={getModifiedImageUrl(genre.image_background)}
             />
-            <Text fontSize="lg">{genre.name}</Text>
+            <Button
+              as="a"
+              href="#"
+              fontSize="lg"
+              variant="link"
+              onClick={() => handleGenreClick(genre.id)}
+            >
+              {genre.name}
+            </Button>
           </HStack>
         </ListItem>
       ))}

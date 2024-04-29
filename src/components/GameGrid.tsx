@@ -5,8 +5,15 @@ import useGames from '../hooks/useGames'
 import GameCard from './GameCard'
 import GameCardSkeleton from './GameCardSkeleton'
 
-const GameGrid: React.FC = () => {
-  const { games, error, isLoading } = useGames()
+interface GameGridProps {
+  selectedGenreId: string | null
+}
+
+const GameGrid: React.FC<GameGridProps> = ({
+  selectedGenreId,
+}: GameGridProps) => {
+  console.log(selectedGenreId, 'selectedGenreId')
+  const { games, error, isLoading } = useGames(selectedGenreId)
   const numbers = Array.from({ length: 6 }, (_, index) => index + 1)
 
   return (

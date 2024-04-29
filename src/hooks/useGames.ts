@@ -3,16 +3,16 @@ import { useEffect, useState } from 'react'
 
 import GamesService, { Game } from '../services/GamesService'
 
-const useGames = () => {
+const useGames = (selectedGenreId: string | null) => {
   // State variables
   const [games, setGames] = useState<Game[]>([])
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    const fetchGames = async () => {
+    const fetchGames = async (genreIds: string | null) => {
       try {
-        const gamesData = await GamesService.getGames()
+        const gamesData = await GamesService.getGames(genreIds)
         setGames(gamesData)
         setIsLoading(false)
       } catch (error) {
@@ -22,8 +22,8 @@ const useGames = () => {
       }
     }
 
-    fetchGames()
-  }, [])
+    fetchGames(selectedGenreId)
+  }, [selectedGenreId])
 
   return { games, error, isLoading }
 }
