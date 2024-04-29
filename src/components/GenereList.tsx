@@ -1,12 +1,4 @@
-import {
-  Button,
-  HStack,
-  Image,
-  List,
-  ListItem,
-  Spinner,
-  Text,
-} from '@chakra-ui/react'
+import { Button, HStack, Image, List, ListItem, Spinner, Text } from '@chakra-ui/react'
 import React from 'react'
 
 import useGenres from '../hooks/useGenres'
@@ -14,9 +6,13 @@ import { getModifiedImageUrl } from '../ImageCropper'
 
 interface GenreListProps {
   onGenreClick: (id: number) => void
+  selectedGenreId: string | null
 }
 
-const GenreList: React.FC<GenreListProps> = ({ onGenreClick }) => {
+const GenreList: React.FC<GenreListProps> = ({
+  onGenreClick,
+  selectedGenreId,
+}) => {
   const { genres, isLoading } = useGenres()
   if (isLoading) {
     return <Spinner />
@@ -24,6 +20,11 @@ const GenreList: React.FC<GenreListProps> = ({ onGenreClick }) => {
 
   const handleGenreClick = (id: number): void => {
     onGenreClick(id)
+  }
+
+  const setFontWeight = (id: string): string => {
+    console.log(selectedGenreId, 'font weight')
+    return id === selectedGenreId ? 'bold' : 'normal'
   }
 
   return (
@@ -39,7 +40,7 @@ const GenreList: React.FC<GenreListProps> = ({ onGenreClick }) => {
             <Button
               as="a"
               href="#"
-              fontSize="lg"
+              fontWeight={setFontWeight(genre.id.toString())}
               variant="link"
               onClick={() => handleGenreClick(genre.id)}
             >
