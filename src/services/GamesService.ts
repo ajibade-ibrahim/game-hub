@@ -23,18 +23,14 @@ export interface FetchGamesResponse {
 
 class GamesService {
   getGames(genreIds: string | null): Promise<Game[]> {
-    console.log(genreIds, 'getGames')
-
     const params: Record<string, string> = {}
     if (genreIds) {
       params.genres = genreIds
     }
-    console.log(params, 'getGames')
 
     return apiClient
       .get<FetchGamesResponse>('/games', { params })
       .then((response) => {
-        console.log(apiClient.options, 'apiClient.options')
         return response.data.results
       })
       .catch((error) => {
