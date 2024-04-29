@@ -1,4 +1,4 @@
-import { Button, Grid, GridItem, Show } from '@chakra-ui/react'
+import { Button, Grid, GridItem, HStack, Show } from '@chakra-ui/react'
 import { useState } from 'react'
 
 import GameGrid from './components/GameGrid'
@@ -8,12 +8,18 @@ import PlatformSelector from './components/PlatformSelector'
 import { Platform } from './models.ts/models'
 
 import './App.css'
+import SortSelector from './components/SortSelector'
 
 function App() {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null)
   const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
     null
   )
+  const [sortOrder, setSortOrder] = useState<string | null>(null)
+
+  const handleSortOrderChanged = (order: string): void => {
+    setSortOrder(order)
+  }
 
   const handleGenreClick = (id: number): void => {
     setSelectedGenre(id.toString())
@@ -46,11 +52,18 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PlatformSelector
-          selectedPlatform={selectedPlatform}
-          onPlatformChange={handlePlatformChange}
-        />
+        <HStack spacing={4} paddingLeft={2} marginBottom={2}>
+          <PlatformSelector
+            selectedPlatform={selectedPlatform}
+            onPlatformChange={handlePlatformChange}
+          />
+          <SortSelector
+            sortOrderChanged={handleSortOrderChanged}
+            selectedSortOrder={sortOrder}
+          />
+        </HStack>
         <GameGrid
+          sortOrder={sortOrder}
           selectedGenreId={selectedGenre}
           selectedPlatformId={selectedPlatform?.id.toString() ?? null}
         />

@@ -6,7 +6,8 @@ import GamesService from '../services/GamesService'
 
 const useGames = (
   selectedGenreId: string | null,
-  selectedPlatformId: string | null
+  selectedPlatformId: string | null,
+  sortOrder: string | null
 ) => {
   // State variables
   const [games, setGames] = useState<Game[]>([])
@@ -16,10 +17,15 @@ const useGames = (
   useEffect(() => {
     const fetchGames = async (
       genreIds: string | null,
-      platformIds: string | null
+      platformIds: string | null,
+      sortOrder: string | null
     ) => {
       try {
-        const gamesData = await GamesService.getGames(genreIds, platformIds)
+        const gamesData = await GamesService.getGames(
+          genreIds,
+          platformIds,
+          sortOrder
+        )
         setGames(gamesData)
         setIsLoading(false)
       } catch (error) {
@@ -29,8 +35,8 @@ const useGames = (
       }
     }
 
-    fetchGames(selectedGenreId, selectedPlatformId)
-  }, [selectedGenreId, selectedPlatformId])
+    fetchGames(selectedGenreId, selectedPlatformId, sortOrder)
+  }, [selectedGenreId, selectedPlatformId, sortOrder])
 
   return { games, error, isLoading }
 }

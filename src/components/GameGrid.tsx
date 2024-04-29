@@ -8,15 +8,18 @@ import GameCardSkeleton from './GameCardSkeleton'
 interface GameGridProps {
   selectedGenreId: string | null
   selectedPlatformId: string | null
+  sortOrder: string | null
 }
 
 const GameGrid: React.FC<GameGridProps> = ({
   selectedGenreId,
   selectedPlatformId,
+  sortOrder,
 }: GameGridProps) => {
   const { games, error, isLoading } = useGames(
     selectedGenreId,
-    selectedPlatformId
+    selectedPlatformId,
+    sortOrder
   )
   const numbers = Array.from({ length: 6 }, (_, index) => index + 1)
 

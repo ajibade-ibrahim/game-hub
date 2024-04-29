@@ -16,7 +16,8 @@ class GamesService {
 
   getGames(
     genreIds: string | null,
-    platformIds: string | null
+    platformIds: string | null,
+    sortOrder: string | null
   ): Promise<Game[]> {
     const params: Record<string, string> = {}
     if (genreIds) {
@@ -24,6 +25,9 @@ class GamesService {
     }
     if (platformIds) {
       params.parent_platforms = platformIds
+    }
+    if (sortOrder) {
+      params.ordering = sortOrder
     }
 
     return apiClient
